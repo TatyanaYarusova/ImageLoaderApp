@@ -33,6 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -52,4 +56,7 @@ dependencies {
 
     //ViewModel
     implementation(libs.viewmodel)
+
+    //Picasso
+    implementation (libs.picasso)
 }
