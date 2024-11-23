@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ImageLoaderApp</string>
+
+    <string name="app_bar_title">ImageLoader</string>
+    <string name="image_content_description">image</string>
+    <string name="error_text">Произошла ошибка.\nПопробуйте еще раз</string>
+    <string name="retry_text_button">Повторить попытку</string>
 </resources>

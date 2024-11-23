@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_l">32dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+
+    <dimen name="text_size_app_bar_title">24sp</dimen>
+
+    <dimen name="text_size_error">20sp</dimen>
+    <dimen name="text_size_retry_button">20sp</dimen>
+
+    <dimen name="divider_h">3dp</dimen>
+
+    <dimen name="pb_size">40dp</dimen>
+</resources>
