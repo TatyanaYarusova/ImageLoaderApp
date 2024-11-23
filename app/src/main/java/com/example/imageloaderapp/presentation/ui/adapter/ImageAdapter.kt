@@ -6,8 +6,10 @@ import androidx.paging.PagingDataAdapter
 import com.example.imageloaderapp.databinding.ImageItemBinding
 import com.example.imageloaderapp.domain.entity.Image
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
-class ImageAdapter : PagingDataAdapter<Image, ImageViewHolder>(ImageDiffCallback) {
+class ImageAdapter @Inject constructor(
+) : PagingDataAdapter<Image, ImageViewHolder>(ImageDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val binding = ImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

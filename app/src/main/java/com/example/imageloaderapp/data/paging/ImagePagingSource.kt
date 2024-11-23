@@ -2,14 +2,15 @@ package com.example.imageloaderapp.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.imageloaderapp.data.api.ImageApiFactory
+import com.example.imageloaderapp.data.api.ImageApiService
 import com.example.imageloaderapp.data.mapper.ImageMapper
 import com.example.imageloaderapp.domain.entity.Image
+import javax.inject.Inject
 
-class ImagePagingSource: PagingSource<Int, Image>() {
-
-    private val apiService = ImageApiFactory.apiService
-    private val mapper = ImageMapper()
+class ImagePagingSource @Inject constructor(
+    private val apiService: ImageApiService,
+    private val mapper: ImageMapper
+): PagingSource<Int, Image>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         val position = params.key ?: 1
