@@ -59,4 +59,8 @@ dependencies {
 
     //Picasso
     implementation (libs.picasso)
+
+    //Paging 3
+    implementation (libs.paging)
+    implementation (libs.paging.coroutine)
 }

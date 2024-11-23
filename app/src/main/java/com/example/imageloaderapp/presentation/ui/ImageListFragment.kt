@@ -1,12 +1,12 @@
 package com.example.imageloaderapp.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagingData
 import com.example.imageloaderapp.databinding.FragmentImageListBinding
 import com.example.imageloaderapp.domain.entity.Image
 import com.example.imageloaderapp.presentation.state.ScreenState
@@ -21,7 +21,7 @@ class ImageListFragment : Fragment() {
     private val adapter = ImageAdapter()
 
     private val viewModel by lazy {
-        ViewModelProvider(this)[ImageListViewModel::class.java]
+        ViewModelProvider(requireActivity())[ImageListViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -34,26 +34,33 @@ class ImageListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
         observeViewModel()
+    }
+
+    private fun setupRecyclerView() {
+        binding.rv.adapter = adapter
     }
 
     private fun observeViewModel() {
         viewModel.state.observe(viewLifecycleOwner, ::renderState)
     }
 
-    private fun renderState(state: ScreenState<List<Image>>) {
+    private fun renderState(state: ScreenState<PagingData<Image>>) {
         when (state) {
             is ScreenState.Content -> renderContent(state.content)
             is ScreenState.Error -> {}
             is ScreenState.Loading -> {}
-
         }
     }
 
-    private fun renderContent(content: List<Image>) {
-        Log.d("TAG", content.toString())
-        binding.rv.adapter = adapter
-        adapter.submitList(content)
+    private fun renderContent(content: PagingData<Image>) {
+        adapter.submitData(lifecycle, content)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     companion object {
