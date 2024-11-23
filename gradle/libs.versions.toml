@@ -13,6 +13,7 @@ retrofit = "2.9.0"
 viewmodel = "2.8.7"
 picasso = "2.71828"
 paging = "3.3.4"
+dagger = "2.51.1"
 
 
 [libraries]
@@ -30,8 +31,11 @@ viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", ve
 picasso = { group = "com.squareup.picasso", name = "picasso", version.ref = "picasso" }
 paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-coroutine = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "paging" }
+dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 
