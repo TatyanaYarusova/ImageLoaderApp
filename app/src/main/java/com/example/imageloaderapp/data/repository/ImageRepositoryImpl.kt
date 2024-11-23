@@ -12,7 +12,6 @@ import com.example.imageloaderapp.domain.entity.result.RequestResult
 import com.example.imageloaderapp.domain.repository.ImageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -23,23 +22,14 @@ class ImageRepositoryImpl() : ImageRepository {
     private val apiService = ImageApiFactory.apiService
     private val mapper = ImageMapper()
 
-    override fun getImageList(): Flow<RequestResult<PagingData<Image>>> = flow {
-        try {
-            val pager = Pager(
-                config = PagingConfig(
-                    pageSize = 1,
-                    enablePlaceholders = false
-                ),
-                pagingSourceFactory = { ImagePagingSource() }
-            )
-
-            pager.flow.collect { pagingData ->
-                emit(RequestResult.Success(pagingData))
-            }
-
-        } catch (e: Exception) {
-            emit(exceptionRequest(e))
-        }
+    override fun getImageList(): Flow<PagingData<Image>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 1,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { ImagePagingSource() }
+        ).flow
     }
 
 

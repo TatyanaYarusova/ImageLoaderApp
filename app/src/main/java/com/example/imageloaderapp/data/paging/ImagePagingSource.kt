@@ -5,8 +5,6 @@ import androidx.paging.PagingState
 import com.example.imageloaderapp.data.api.ImageApiFactory
 import com.example.imageloaderapp.data.mapper.ImageMapper
 import com.example.imageloaderapp.domain.entity.Image
-import retrofit2.HttpException
-import java.io.IOException
 
 class ImagePagingSource: PagingSource<Int, Image>() {
 
@@ -42,10 +40,8 @@ class ImagePagingSource: PagingSource<Int, Image>() {
             } else {
                 LoadResult.Error(Exception("API error: ${response.code()}"))
             }
-        } catch (exception: IOException) {
-            LoadResult.Error(exception)
-        } catch (exception: HttpException) {
-            LoadResult.Error(exception)
+        } catch (e: Exception) {
+            LoadResult.Error(e)
         }
     }
 

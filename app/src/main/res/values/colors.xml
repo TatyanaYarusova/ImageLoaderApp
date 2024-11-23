@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="app_bar">#D9EAD3</color>
+
+    <color name="pb">#D9EAD3</color>
+
+    <color name="divider_color">#CCCCCC</color>
+
+    <color name="retry_button">#38761d</color>
 </resources>
