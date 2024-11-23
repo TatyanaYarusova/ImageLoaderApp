@@ -6,13 +6,13 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.imageloaderapp.data.repository.ImageRepositoryImpl
 import com.example.imageloaderapp.domain.entity.Image
 import com.example.imageloaderapp.domain.usecase.GetImageListUseCase
+import javax.inject.Inject
 
-class ImageListViewModel() : ViewModel() {
-    private val repo = ImageRepositoryImpl()
-    private val getImageList = GetImageListUseCase(repo)
+class ImageListViewModel @Inject constructor(
+    private val getImageList: GetImageListUseCase,
+) : ViewModel() {
 
     val images: LiveData<PagingData<Image>> = getImageList()
         .cachedIn(viewModelScope)
