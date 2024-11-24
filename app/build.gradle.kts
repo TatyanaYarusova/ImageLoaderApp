@@ -68,4 +68,18 @@ dependencies {
     //Dagger 2
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
+
+    //Test junit
+    testImplementation(libs.junit.api)
+    testImplementation(libs.junit.params)
+    testRuntimeOnly(libs.junit.engine)
+
+    //MockK
+    testImplementation (libs.mockk)
+
+    //Coroutine test
+    testImplementation(libs.coroutines.test)
+
+    // Paging
+    testImplementation(libs.androidx.paging.common)
 }
