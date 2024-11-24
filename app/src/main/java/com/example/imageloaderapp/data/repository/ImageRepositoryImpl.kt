@@ -12,14 +12,18 @@ import javax.inject.Inject
 class ImageRepositoryImpl @Inject constructor(
     private val imagePagingSource: ImagePagingSource
 ) : ImageRepository {
-
     override fun getImageList(): Flow<PagingData<Image>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 1,
-                enablePlaceholders = false
+                pageSize = DEFAULT_PAGE_SIZE,
+                enablePlaceholders = ENABLE_PLACEHOLDERS
             ),
             pagingSourceFactory = { imagePagingSource }
         ).flow
+    }
+
+    private companion object {
+        private const val DEFAULT_PAGE_SIZE = 1
+        private const val ENABLE_PLACEHOLDERS = false
     }
 }

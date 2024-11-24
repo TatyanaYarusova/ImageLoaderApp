@@ -12,9 +12,7 @@ import dagger.Component
         ViewModelModule::class,
     ]
 )
-
 @AppScope
 interface ImageLoaderAppComponent {
-
     fun inject(fragment: ImageListFragment)
 }

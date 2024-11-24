@@ -4,18 +4,20 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.LoadState
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import com.example.imageloaderapp.ImageLoaderApp
 import com.example.imageloaderapp.databinding.FragmentImageListBinding
+import com.example.imageloaderapp.domain.entity.Image
+import com.example.imageloaderapp.presentation.state.ScreenState
 import com.example.imageloaderapp.presentation.ui.adapter.ImageAdapter
 import com.example.imageloaderapp.presentation.viewmodel.ImageListViewModel
 import com.example.imageloaderapp.presentation.viewmodel.ViewModelFactory
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ImageListFragment : Fragment() {
@@ -57,20 +59,10 @@ class ImageListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.rv.adapter = adapter
+        binding.recyclerView.adapter = adapter
 
         adapter.addLoadStateListener { loadState ->
-            renderLoading(loadState.source.refresh is LoadState.Loading)
-
-            val errorState = loadState.source.append as? LoadState.Error
-                ?: loadState.source.prepend as? LoadState.Error
-                ?: loadState.source.refresh as? LoadState.Error
-
-            if (errorState != null) {
-                renderError()
-            } else {
-                renderContent()
-            }
+            viewModel.handleLoadState(loadState)
         }
 
         binding.retryButton.setOnClickListener {
@@ -78,28 +70,48 @@ class ImageListFragment : Fragment() {
         }
     }
 
-    private fun renderContent() {
+    private fun renderContent(images: PagingData<Image>) {
         with(binding) {
-            errorView.visibility = GONE
-            retryButton.visibility = GONE
-            rv.visibility = VISIBLE
+            progressBar.isVisible = false
+            errorText.isVisible = false
+            retryButton.isVisible = false
+            recyclerView.isVisible = true
         }
+
+        adapter.submitData(lifecycle, images)
     }
-    private fun renderLoading(state: Boolean) {
-        binding.pb.isVisible = state
+
+    private fun renderLoading() {
+        with(binding) {
+            progressBar.isVisible = true
+            errorText.isVisible = false
+            retryButton.isVisible = false
+            recyclerView.isVisible = false
+        }
     }
 
     private fun renderError() {
         with(binding) {
-            rv.visibility = GONE
-            errorView.visibility = VISIBLE
-            retryButton.visibility = VISIBLE
+            recyclerView.isVisible = false
+            progressBar.isVisible = false
+            errorText.isVisible = true
+            retryButton.isVisible = true
         }
     }
 
     private fun observeViewModel() {
-        viewModel.images.observe(viewLifecycleOwner) { images ->
-            adapter.submitData(lifecycle, images)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                renderState(state)
+            }
+        }
+    }
+
+    private fun renderState(state: ScreenState<PagingData<Image>>) {
+        when(state) {
+            is ScreenState.Loading -> renderLoading()
+            is ScreenState.Content -> renderContent(state.content)
+            is ScreenState.Error -> renderError()
         }
     }
 

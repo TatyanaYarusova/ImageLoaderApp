@@ -9,10 +9,8 @@ import dagger.multibindings.IntoMap
 
 @Module
 interface ViewModelModule {
-
     @Binds
     @IntoMap
     @ViewModelKey(ImageListViewModel::class)
     fun bindImageViewModel(viewModel: ImageListViewModel): ViewModel
-
 }

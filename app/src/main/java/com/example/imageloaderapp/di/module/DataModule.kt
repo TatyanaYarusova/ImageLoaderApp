@@ -15,7 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 interface DataModule {
-
     @Binds
     fun bindImageRepository(impl: ImageRepositoryImpl): ImageRepository
 
@@ -42,7 +41,5 @@ interface DataModule {
         ): ImagePagingSource {
             return ImagePagingSource(apiService, mapper)
         }
-
-
     }
 }
